@@ -2,8 +2,9 @@
 layout: post
 title: "Some title"
 tags: []
-permalink: /empty
-comments: true
+permalink: /sample
 published: false
 use_math: false
 ---
+
+Some contents
