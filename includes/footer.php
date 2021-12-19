@@ -2,7 +2,7 @@
 
 <footer>
     <div id="copyright">
-        © <?=date('Y')?> <?=$config['author']?>
+        © <?=date('Y')?> <a href="<?=(isset($config['email']) ? 'mailto:'.htmlspecialchars($config['email']) : 'javascript:void(0);')?>"><?=$config['author']?></a>
     </div>
 </footer>
 

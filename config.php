@@ -2,6 +2,7 @@
     $config = [
         'siteTitle'           => 'TELKblog',
         'author'              => 'TELK',
+        'email'               => 'telk5093@gmail.com',
         'description'         => 'TELK의 블로그',
         'baseurl'             => 'https://blog.telk.kr',
 
