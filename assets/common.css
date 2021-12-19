@@ -166,6 +166,45 @@ header nav ul li a:hover {
     margin-bottom: 3rem;
 }
 
+/* Pagination */
+ul.pagination {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    text-align: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    font-size: 14px;
+}
+ul.pagination li {
+    display: inline-block;
+    border: 1px solid #eeeeee;
+    border-right-width: 0;
+}
+ul.pagination li a {
+    padding: 0 0.5rem;
+}
+ul.pagination li:hover {
+    background-color: #b9d4f0;
+}
+ul.pagination li:first-child {
+    border-radius: 3px 0 0 3px;
+    border-right-width: 0;
+}
+ul.pagination li.current {
+    color: white;
+    background-color: #3b7cbf;
+}
+ul.pagination li.current a {
+    color: inherit;
+}
+ul.pagination li:last-child {
+    border-radius: 0 3px 3px 0;
+    border-right-width: 1px;
+}
+
 footer {
     border-top: 1px solid #eeeeee;
 }

@@ -91,11 +91,27 @@
         $posts = [];
     }
 
+    // Route
     $Route = new Route();
 
     // List
     Route::add('/', function() {
         global $config, $posts;
+
+        // Page
+        $page = abs((int) $_GET['page']);
+        if (!$page || $page < 1) {
+            $page = 1;
+        }
+        $totalPostCount = count($posts);
+        $lastPageNum    = (int) ceil($totalPostCount / $config['item_per_page']);
+        if ($page > $lastPageNum) {
+            $page = $lastPageNum;
+        }
+        $startNum       = (int) (($page - 1) * $config['item_per_page']);
+
+        // Slice array
+        $posts = array_slice($posts, $startNum, $config['item_per_page']);
         
         $title = 'Home';
         include_once _PATH.'/includes/header.php';
@@ -103,27 +119,26 @@
         echo '<ul class="post-list">'.PHP_EOL;
         foreach ($posts as $_uid => $_postData) {
             $_postTime = $_postData['date'];
+            
+            // Custom date
             if ($_postData['meta']['date']) {
                 $_postTime = $_postData['meta']['date'];
             }
 
+            // Cut contents
             $_listContent = $_postData['content'];
             $Parsedown = new \Parsedown();
             $_listContent = $Parsedown->text($_listContent);
             $_listContent = strip_tags($_listContent);
             if (iconv_strlen($_listContent) >= $config['content_limit']) {
                 $_listContent = iconv_substr($_listContent, 0, $config['content_limit']).' ...';
-            } else {
             }
 
-            echo "\t".'<li><a href="'.$_postData['date'].'/'.$_postData['uname'].'">';
-            echo '<time datetime="'.$_postTime.'">'.$_postData['date'].'</time>';
-            echo '<h2>'.$_postData['meta']['title'].'</h2>';
-            echo '<p>'.$_listContent.'</p>';
-            echo '</a></li>'.PHP_EOL;
+            include _PATH.'/includes/list.php';
         }
         echo '</ul>'.PHP_EOL;
 
+        include_once _PATH.'/includes/pagination.php';
         include_once _PATH.'/includes/footer.php';
     });
 
@@ -131,6 +146,10 @@
     Route::add('/(\d{4,4})-(\d{2,2})-(\d{2,2})/([a-zA-Z0-9\-]+)', function($y, $m, $d, $name) {
         global $config, $posts;
         $_uid = $y.'-'.$m.'-'.$d.'-'.$name;
+
+        if (!array_key_exists($_uid, $posts)) {
+            error404($_SERVER['REQUEST_URI']);
+        }
         
         $title = $posts[$_uid]['title'];
         $postDate = date('Y/m/d', strtotime($posts[$_uid]['date']));
