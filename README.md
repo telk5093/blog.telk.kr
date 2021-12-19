@@ -1,0 +1,1 @@
+# blog.telk.kr
