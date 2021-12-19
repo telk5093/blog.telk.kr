@@ -1,3 +1,6 @@
-vendor
-posts
+files
 pages
+posts
+vendor
+!pages/sample.md
+!posts/sample.md
