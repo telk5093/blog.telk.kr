@@ -28,7 +28,7 @@
         </div>
         <ul>
             <li><a href="/">Posts</a></li>
-            <!-- <li><a href="/tags">Tags</a></li> -->
+            <li><a href="/tags">Tags</a></li>
             <li><a href="/about">About</a></li>
         </ul>
     </nav>

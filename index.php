@@ -12,10 +12,11 @@
     define('_BASEDIR', '/');
 
     // Parse meta data
-    function parseMetaData($source) {
+    function parseMetaData($source)
+    {
         $metaData = [];
         $lines = explode("\n", trim($source));
-        for($l=0, $llen=count($lines); $l<$llen; $l++) {
+        for ($l=0, $llen=count($lines); $l<$llen; $l++) {
             $_line = trim($lines[$l]);
             if (!$_line) {
                 continue;
@@ -41,7 +42,8 @@
 
     // Get posts
     $permalinks = [];
-    $posts = [];
+    $posts      = [];
+    $tags       = [];
     if (is_dir(_PATH.'/posts/')) {
         $dir = opendir(_PATH.'/posts/');
         while (($_file = readdir($dir)) !== false) {
@@ -81,12 +83,20 @@
                 'title'   => $_metaData['title'],
                 'content' => $_content,
             ];
+
+            // Tags
+            foreach ($_metaData['tags'] as $_tag) {
+                $tags[$_tag][] = $_uid;
+            }
         }
 
         // Sort by date desc
-        uasort($posts, function($a, $b) {
+        uasort($posts, function ($a, $b) {
             return $a['date'] < $b['date'];
         });
+
+        // Sort by tag's name asc
+        ksort($tags, SORT_STRING);
     } else {
         $posts = [];
     }
@@ -95,7 +105,7 @@
     $Route = new Route();
 
     // List
-    Route::add('/', function() {
+    Route::add('/', function () {
         global $config, $posts;
 
         // Page
@@ -143,7 +153,7 @@
     });
 
     // View
-    Route::add('/(\d{4,4})-(\d{2,2})-(\d{2,2})/([a-zA-Z0-9\-]+)', function($y, $m, $d, $name) {
+    Route::add('/(\d{4,4})-(\d{2,2})-(\d{2,2})/([a-zA-Z0-9\-]+)', function ($y, $m, $d, $name) {
         global $config, $posts;
         $_uid = $y.'-'.$m.'-'.$d.'-'.$name;
 
@@ -176,17 +186,47 @@
 
     // Permalink
     foreach ($permalinks as $_permalink => $_redirect) {
-        Route::add($_permalink, function() use ($_redirect) {
+        Route::add($_permalink, function () use ($_redirect) {
             http_response_code(301);
             header('location: /'.$_redirect.'');
             exit;
         });
     }
 
-    // About
-    Route::add('/(\w+)', function($page) {
-        global $config, $posts;
+    // Tags
+    Route::add('/tags', function () {
+        global $config, $posts, $tags;
         
+        $title = 'Home';
+        include_once _PATH.'/includes/header.php';
+        
+        echo '<ul class="tags">';
+        foreach ($tags as $_tagName => $_tags) {
+            echo '<li>';
+            echo '<span class="tag">';
+            echo '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">';
+            echo '<path stroke="none" d="M0 0h24v24H0z" fill="none"/>';
+            echo '<circle cx="8.5" cy="8.5" r="1" fill="currentColor" />';
+            echo '<path d="M4 7v3.859c0 .537 .213 1.052 .593 1.432l8.116 8.116a2.025 2.025 0 0 0 2.864 0l4.834 -4.834a2.025 2.025 0 0 0 0 -2.864l-8.117 -8.116a2.025 2.025 0 0 0 -1.431 -.593h-3.859a3 3 0 0 0 -3 3z" />';
+            echo '</svg>';
+            echo ' '.$_tagName.'</span><br />';
+            foreach ($_tags as $_uname) {
+                list($_y, $_m, $_d, $_uid) = explode('-', $_uname, 4);
+                $_date = $_y.'-'.$_m.'-'.$_d;
+                $_title = $posts[$_uname]['title'];
+                echo '<a href="/'.$_date.'/'.$_uid.'">'.$_title.'</a><br />';
+            }
+            echo '</li>'.PHP_EOL;
+        }
+        echo '</ul>';
+
+        include_once _PATH.'/includes/footer.php';
+    });
+
+    // About
+    Route::add('/(\w+)', function ($page) {
+        global $config, $posts;
+
         $title = 'Home';
         include_once _PATH.'/includes/header.php';
         if (file_exists(_PATH.'/pages/'.$page.'.md')) {
@@ -200,7 +240,8 @@
 
     // 404
     Route::pathNotFound('error404');
-    function error404($path) {
+    function error404($path)
+    {
         global $config, $posts;
         http_response_code(404);
         
