@@ -1,5 +1,5 @@
 @extends('layout')
-@section('title', 'Posts')
+@section('title', $postData['title'])
 @section('content')
 <h2 class="post-title">{{$postData['title']}}</h2>
 <div class="author">Written by {{\Config::get('blog.author')}} on {{date('Y.m.d', $postData['dateTime'])}}</div>

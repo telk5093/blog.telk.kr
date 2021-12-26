@@ -1,4 +1,5 @@
 @extends('layout')
+@section('title', 'Tags')
 @section('content')
 <ul class="tags">
 @foreach ($tagData as $_tagName => $_tags)
