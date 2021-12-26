@@ -25,3 +25,4 @@ If you add ``permalink: /some_path`` in two ---s(I'll call it as _meta_ data sec
 
 # Todo
  * Comment on/off
+ * Custom error pages
