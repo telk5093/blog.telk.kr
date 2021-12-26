@@ -28,6 +28,9 @@ ul, ol {
 img {
     max-width: 100%;
 }
+p {
+	margin-bottom: 20px;
+}
 pre {
     margin: 0.5em 0;
     padding: 0 !important;
