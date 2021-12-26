@@ -195,17 +195,17 @@ ul.pagination li a {
     padding: 0 0.5rem;
 }
 ul.pagination li:hover {
-    background-color: #b9d4f0;
+    background-color: #eeeeee;
 }
 ul.pagination li:first-child {
     border-radius: 3px 0 0 3px;
     border-right-width: 0;
 }
 ul.pagination li.current {
-    color: white;
-    background-color: #3b7cbf;
+    background-color: #dddddd;
+    font-weight: bold;
 }
-ul.pagination li.current a {
+ul.pagination li a {
     color: inherit;
 }
 ul.pagination li:last-child {
