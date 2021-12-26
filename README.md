@@ -1,5 +1,5 @@
 # TELKblog
-A simple small PHP blog using Markdown
+A simple Laravel PHP blog using Markdown
 
 # How to use
 Fork this repository and run ``composer install`` to install dependencies.
@@ -19,14 +19,9 @@ Post contents
 If you add ``permalink: /some_path`` in two ---s(I'll call it as _meta_ data section), you may also access via `/some_path`.
 <br />
 
-If you need a custom page, then make a markdown file in `./pages` folder.  
-And add a link to `./includes/header.php`, `./includes/footer.php` or whatever.
-
 # Dependencies
- * [simplePHPRouter](https://github.com/steampixel/simplePHPRouter)
  * [Markdown Parser in PHP](https://parsedown.org/)
  * [prismjs](https://prismjs.com/)
 
 # Todo
- * Tags
  * Comment on/off
