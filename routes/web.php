@@ -48,3 +48,8 @@ Route::get('/tags', function() use ($post, $postList) {
         'tagData' => $post->tags,
     ]);
 });
+
+// .well-known
+Route::get('/.well-known/acme-challenge/{token}', function(string $token) {
+    return \Illuminate\Support\Facades\Storage::get('public/.well-known/acme-challenge/'.$token);
+});
