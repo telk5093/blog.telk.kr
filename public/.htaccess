@@ -9,6 +9,10 @@
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
+    # Allow Let's Encrypt ACME Challenge verification
+    RewriteCond %{REQUEST_URI} ^/.well-known/acme-challenge/ [NC]
+    RewriteRule ^ - [L]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
