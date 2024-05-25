@@ -51,5 +51,11 @@ Route::get('/tags', function() use ($post, $postList) {
 
 // .well-known
 Route::get('/.well-known/acme-challenge/{token}', function(string $token) {
-    return \Illuminate\Support\Facades\Storage::get('public/.well-known/acme-challenge/'.$token);
+    $filePath = storage_path('public/.well-known/acme-challenge/'.$token);
+    
+    if (file_exists($filePath)) {
+        return response()->file($filePath);
+    }
+
+    abort(404);
 });
