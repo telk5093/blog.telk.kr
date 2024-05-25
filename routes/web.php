@@ -48,14 +48,3 @@ Route::get('/tags', function() use ($post, $postList) {
         'tagData' => $post->tags,
     ]);
 });
-
-// .well-known
-Route::get('/.well-known/acme-challenge/{token}', function(string $token) {
-    $filePath = storage_path('public/.well-known/acme-challenge/'.$token);
-    
-    if (file_exists($filePath)) {
-        return response()->file($filePath);
-    }
-
-    abort(404);
-});
